@@ -1,0 +1,20 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib"]
+test = "test"
+script = "script"
+solc_version = "0.8.30"
+evm_version = "prague"   # Arc targets the Osaka baseline; Prague bytecode is a safe subset
+optimizer = true
+optimizer_runs = 10_000
+fuzz = { runs = 1000 }
+
+[rpc_endpoints]
+arc = "https://rpc.mainnet.arc.io"
+arc_testnet = "https://rpc.testnet.arc.io"
+local = "http://127.0.0.1:8545"
+
+# Contract verification on the Blockscout-based explorers:
+#   forge verify-contract <addr> src/PayLink.sol:PayLink --chain-id 5042 \
+#     --verifier blockscout --verifier-url https://explorer.arc.io/api/

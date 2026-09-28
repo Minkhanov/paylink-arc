@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PayLink — USDC invoices on Arc</title>
+  <meta name="description" content="Create a USDC invoice link with a QR code in seconds. The payer settles it in one transaction on Arc and the on-chain receipt is final in under a second.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="vendor/ethers.umd.min.js"></script>
+  <script src="vendor/qrcode.js"></script>
+  <script src="config.js"></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="#/">Pay<span>Link</span></a>
+    <nav>
+      <a href="#/" data-nav="create">New invoice</a>
+      <a href="#/dashboard" data-nav="dashboard">Dashboard</a>
+    </nav>
+    <div class="spacer"></div>
+    <span class="badge" id="net-badge">…</span>
+    <button class="secondary" id="btn-connect" type="button">Connect wallet</button>
+  </header>
+
+  <main>
+    <!-- ============================================================ CREATE -->
+    <section id="view-create" hidden>
+      <div class="card">
+        <h1>Request USDC in one link</h1>
+        <p class="lead">Creating an invoice is free and needs no transaction. Share the link or QR code; the payer settles it in a single transaction on Arc.</p>
+        <form id="form-create" novalidate>
+          <label for="in-merchant">Receive to <span class="hint">— your Arc address</span></label>
+          <div class="row">
+            <input id="in-merchant" class="mono" placeholder="0x…" autocomplete="off" spellcheck="false">
+            <button class="ghost shrink" type="button" id="btn-use-wallet">Use my wallet</button>
+          </div>
+
+          <label for="in-amount">Amount <span class="hint">— USDC, up to 6 decimals</span></label>
+          <input id="in-amount" inputmode="decimal" placeholder="25.00" autocomplete="off">
+
+          <label for="in-memo">Memo <span class="hint">— shown to the payer and stored on-chain (max 140 bytes)</span></label>
+          <input id="in-memo" maxlength="140" placeholder="Invoice #42 — logo design" autocomplete="off">
+
+          <label for="in-due">Pay by</label>
+          <div class="row">
+            <select id="in-due">
+              <option value="0">No deadline</option>
+              <option value="86400">24 hours</option>
+              <option value="604800" selected>7 days</option>
+              <option value="2592000">30 days</option>
+              <option value="custom">Pick a date…</option>
+            </select>
+            <input id="in-due-custom" type="datetime-local" hidden>
+          </div>
+
+          <button class="big" type="submit" id="btn-create">Create payment link</button>
+          <div class="status err" id="create-error" hidden></div>
+        </form>
+      </div>
+
+      <div class="card" id="create-result" hidden>
+        <h2>Share this invoice</h2>
+        <div class="result">
+          <img class="qr" id="qr-img" alt="QR code with the payment link">
+          <div>
+            <label for="out-link">Payment link</label>
+            <div class="row">
+              <input id="out-link" class="mono" readonly>
+              <button class="secondary shrink" type="button" id="btn-copy">Copy</button>
+            </div>
+            <dl class="kv">
+              <dt>Invoice id</dt><dd class="mono" id="out-id"></dd>
+              <dt>Amount</dt><dd id="out-amount"></dd>
+              <dt>Pay by</dt><dd id="out-due"></dd>
+            </dl>
+            <div class="status" id="watch-status">Waiting for payment…</div>
+            <p><a id="out-open" href="#" target="_blank" rel="noopener">Open the payer view ↗</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ PAY -->
+    <section id="view-pay" hidden>
+      <div class="card">
+        <div class="row">
+          <div><span class="hint">Payment request</span></div>
+          <div class="shrink"><span class="pill unpaid" id="pay-pill">Checking…</span></div>
+        </div>
+        <div class="amount" id="pay-amount">—</div>
+        <dl class="kv">
+          <dt>Pay to</dt><dd class="mono" id="pay-merchant"></dd>
+          <dt>Memo</dt><dd id="pay-memo"></dd>
+          <dt>Pay by</dt><dd id="pay-due"></dd>
+          <dt>Network</dt><dd id="pay-network"></dd>
+          <dt>Network fee</dt><dd id="pay-fee">…</dd>
+          <dt>Invoice id</dt><dd class="mono" id="pay-id"></dd>
+        </dl>
+        <button class="big" type="button" id="btn-pay" disabled>Pay</button>
+        <div class="status" id="pay-status" hidden></div>
+      </div>
+      <div class="card" id="pay-receipt" hidden>
+        <h2>Receipt</h2>
+        <dl class="kv">
+          <dt>Paid by</dt><dd class="mono" id="rc-payer"></dd>
+          <dt>Paid at</dt><dd id="rc-time"></dd>
+          <dt>Block</dt><dd id="rc-block"></dd>
+          <dt>Transaction</dt><dd class="mono" id="rc-tx"></dd>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ============================================================ DASHBOARD -->
+    <section id="view-dashboard" hidden>
+      <div class="card">
+        <h1>Payments received</h1>
+        <p class="lead">Read straight from the PayLink contract — no backend, no indexer.</p>
+        <form id="form-dash" class="row" novalidate>
+          <input id="in-dash-merchant" class="mono" placeholder="Merchant address 0x…" autocomplete="off" spellcheck="false">
+          <button class="shrink" type="submit">Load</button>
+        </form>
+        <div class="status err" id="dash-error" hidden></div>
+        <div class="stats">
+          <div class="stat"><b id="st-count">—</b><span>Invoices paid</span></div>
+          <div class="stat"><b id="st-total">—</b><span>USDC received (shown rows)</span></div>
+          <div class="stat"><b id="st-last">—</b><span>Last payment</span></div>
+        </div>
+        <table>
+          <thead><tr><th>When</th><th>Amount</th><th>Memo</th><th>Payer</th><th>Tx</th></tr></thead>
+          <tbody id="dash-rows"></tbody>
+        </table>
+        <p><button class="ghost" type="button" id="btn-csv" disabled>Export CSV</button></p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    PayLink runs on <a href="https://arc.io" target="_blank" rel="noopener">Arc</a> — USDC is the gas token, finality is deterministic and sub-second.
+    Contract: <a id="ft-contract" href="#" target="_blank" rel="noopener">—</a> ·
+    <a href="https://github.com/Minkhanov/paylink-arc" target="_blank" rel="noopener" id="ft-source">Source</a><br>
+    Experimental, unaudited software. Double-check the recipient address before paying. Not financial advice.
+  </footer>
+</body>
+</html>
