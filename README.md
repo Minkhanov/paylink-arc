@@ -10,7 +10,7 @@ receipt is final.
 | | |
 |---|---|
 | **Live app** | `https://Minkhanov.github.io/paylink-arc/` <!-- TODO after GitHub Pages deploy --> |
-| **Contract (Arc mainnet, chain 5042)** | `0x…` → `https://explorer.arc.io/address/0x…` <!-- TODO after deploy --> |
+| **Contract (Arc mainnet, chain 5042)** | [`0x29d6C718405f7bd61156C4C184f2A6080f0275de`](https://explorer.arc.io/address/0x29d6C718405f7bd61156C4C184f2A6080f0275de) · source verified on [Sourcify](https://sourcify.dev/#/lookup/0x29d6C718405f7bd61156C4C184f2A6080f0275de) (exact match) |
 | **Network** | Arc mainnet · RPC `https://rpc.mainnet.arc.io` · Explorer `https://explorer.arc.io` |
 | **Status** | Experimental. Unaudited. Please use small amounts. |
 

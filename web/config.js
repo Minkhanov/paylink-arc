@@ -10,7 +10,7 @@ window.PAYLINK_CONFIG = {
       name: "Arc",
       rpc: "https://rpc.mainnet.arc.io",
       explorer: "https://explorer.arc.io",
-      payLink: "0x0000000000000000000000000000000000000000", // TODO: mainnet address after deploy
+      payLink: "0x29d6C718405f7bd61156C4C184f2A6080f0275de", // Arc mainnet, block 23738412
     },
     5042002: {
       name: "Arc Testnet",
