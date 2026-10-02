@@ -1,0 +1,9 @@
+PayLink is live on Arc mainnet, chain 5042. The Circle products it uses today are Arc and USDC.
+
+Arc first. In web/config.js, lines 9 to 14, the app is pointed at Arc mainnet and its RPC, with the deployed contract address on line 13.
+
+USDC is Arc's native token, and it is the payment asset. In src/PayLink.sol, the pay function on line 76 is payable. Line 83 checks that msg.value equals the invoice amount, so the payer needs only USDC: no approve step and no second token. Lines 110 and 111 forward the USDC to the merchant in the same call.
+
+In web/app.js, line 18 sets Arc's 18 native decimals; lines 73 to 83 convert them to the six-decimal amounts people expect; line 228 registers Arc in the wallet with USDC as its currency; and lines 398 and 399 show the network fee in dollars.
+
+Planned in this grant: Circle Bridge Kit for paying from any chain, in milestone one, and EURC, in milestone two. Neither is integrated yet.
