@@ -1,0 +1,124 @@
+1
+00:00:00,658 --> 00:00:03,895
+PayLink: USDC invoices in one link.
+
+2
+00:00:03,915 --> 00:00:06,167
+The contract is live on Arc mainnet,
+
+3
+00:00:06,187 --> 00:00:08,679
+and its source code is verified on Sourcify,
+
+4
+00:00:08,699 --> 00:00:10,230
+with an exact match.
+
+5
+00:00:10,250 --> 00:00:11,876
+The walkthrough below runs the same
+
+6
+00:00:11,896 --> 00:00:14,220
+contract code on a local devnet,
+
+7
+00:00:14,240 --> 00:00:15,353
+with test accounts.
+
+8
+00:00:16,337 --> 00:00:18,769
+A merchant enters the amount and a memo,
+
+9
+00:00:18,789 --> 00:00:20,356
+and creates a payment link.
+
+10
+00:00:20,376 --> 00:00:22,639
+That's free: there is no transaction,
+
+11
+00:00:22,659 --> 00:00:24,832
+just a link and a QR code.
+
+12
+00:00:24,852 --> 00:00:27,180
+The merchant's card is now watching the chain.
+
+13
+00:00:27,800 --> 00:00:29,319
+The payer opens the link,
+
+14
+00:00:29,339 --> 00:00:32,143
+and sees exactly what they pay: the amount,
+
+15
+00:00:32,163 --> 00:00:33,886
+the recipient, the memo,
+
+16
+00:00:33,906 --> 00:00:35,861
+and the network fee, in dollars.
+
+17
+00:00:36,557 --> 00:00:38,496
+One click, one transaction.
+
+18
+00:00:38,516 --> 00:00:40,660
+USDC is Arc's native token,
+
+19
+00:00:40,680 --> 00:00:42,246
+so there is no approve step,
+
+20
+00:00:42,266 --> 00:00:43,764
+and no second gas token.
+
+21
+00:00:44,320 --> 00:00:46,320
+Finality is deterministic.
+
+22
+00:00:46,340 --> 00:00:48,832
+The merchant's card flips to Paid by itself,
+
+23
+00:00:48,852 --> 00:00:50,241
+and that payment is final.
+
+24
+00:00:50,749 --> 00:00:52,980
+The same invoice can't be paid twice.
+
+25
+00:00:53,638 --> 00:00:55,493
+The dashboard reads every payment
+
+26
+00:00:55,513 --> 00:00:57,128
+straight from the contract.
+
+27
+00:00:57,148 --> 00:00:59,303
+No backend, no indexer.
+
+28
+00:00:59,323 --> 00:01:01,326
+Export it to CSV for your books.
+
+29
+00:01:02,734 --> 00:01:04,529
+PayLink is open source,
+
+30
+00:01:04,549 --> 00:01:07,726
+live on Arc mainnet, and verified on Sourcify.
+
+31
+00:01:07,746 --> 00:01:08,992
+Links are in the description.
+

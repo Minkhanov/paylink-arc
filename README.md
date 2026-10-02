@@ -9,15 +9,16 @@ receipt is final.
 
 | | |
 |---|---|
-| **Live app** | `https://Minkhanov.github.io/paylink-arc/` <!-- TODO after GitHub Pages deploy --> |
+| **Live app** | [minkhanov.github.io/paylink-arc](https://minkhanov.github.io/paylink-arc/) |
 | **Contract (Arc mainnet, chain 5042)** | [`0x29d6C718405f7bd61156C4C184f2A6080f0275de`](https://explorer.arc.io/address/0x29d6C718405f7bd61156C4C184f2A6080f0275de) · source verified on [Sourcify](https://sourcify.dev/#/lookup/0x29d6C718405f7bd61156C4C184f2A6080f0275de) (exact match) |
 | **Network** | Arc mainnet · RPC `https://rpc.mainnet.arc.io` · Explorer `https://explorer.arc.io` |
 | **Status** | Experimental. Unaudited. Please use small amounts. |
 
 ## Demo
 
-<!-- TODO: replace with a GIF or video recorded on Arc mainnet -->
-`docs/demo.gif` (placeholder, to be recorded on mainnet)
+**Demo video (1:12):** [minkhanov.github.io/paylink-arc/media/paylink_demo.mp4](https://minkhanov.github.io/paylink-arc/media/paylink_demo.mp4) · English subtitles: [`paylink_demo.en.srt`](https://minkhanov.github.io/paylink-arc/media/paylink_demo.en.srt)
+
+The video opens with the live app and the verified contract on Arc mainnet (read-only), then walks through the full flow on a local devnet that runs the same contract code with test accounts. No mainnet funds are moved in the video.
 
 Screenshots from the automated end-to-end run on a local node (`e2e/test_e2e.py`):
 
